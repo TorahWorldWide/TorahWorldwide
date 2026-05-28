@@ -86,6 +86,22 @@ This is NOT a translation that "sounds biblical-lite". This is a retelling in pu
 
 15. **שרצו ≠ פרו** — distinct meanings even here.
 
+16. **BINYONI-NISMAKH STAYS DESCRIPTIVE — DO NOT SPLIT INTO A SEPARATE VERB CLAUSE.**
+
+   A construct-state participle (בינוני נסמך) that describes a noun MUST remain a descriptor — never split it into an independent verb action.
+
+   Patterns: יֹדְעֵי X, שֹׁמְרֵי X, אֹהֲבֵי X, יֹשְׁבֵי X, בֹּנֵי X, רֹעֵי X, עֹשֵׂי X, הֹלְכֵי X — and any other participle in construct describing a noun.
+
+   CORRECT:
+   - "כֵּאלֹהִים יֹדְעֵי טוֹב וָרָע" → "כְּמוֹ אֱלוֹהִים שֶׁיּוֹדְעִים טוֹב וָרָע" / "כְּמוֹ אֱלוֹהִים — יוֹדְעֵי טוֹב וְרַע"
+   - "שֹׁמְרֵי בְרִית" → "אֵלֶּה שֶׁשּׁוֹמְרִים אֶת הַבְּרִית" / "שׁוֹמְרֵי הַבְּרִית"
+
+   WRONG (do NOT do this):
+   - "כֵּאלֹהִים יֹדְעֵי טוֹב וָרָע" → "כְּמוֹ אֱלוֹהִים, וְתֵדְעוּ טוֹב וְרַע" ❌ (adds a verb action not in source)
+   - "שֹׁמְרֵי בְרִית" → "וְהֵם יִשְׁמְרוּ אֶת הַבְּרִית" ❌ (turns description into future action)
+
+   The participle describes WHAT/WHO the noun IS, not WHAT the noun WILL DO. Translate accordingly.
+
 ## EXAMPLES
 
 **Genesis 1:1**

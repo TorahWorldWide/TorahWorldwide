@@ -114,6 +114,22 @@ Biblical drama comes from word choice and rhythm, not punctuation. NEVER use !
 ### RULE 14: AMBIGUITY — PRESERVE IT
 When the Hebrew is genuinely ambiguous, keep the ambiguity. Add a brief parenthetical note if needed. Do not "solve" the ambiguity with derash.
 
+### RULE 15: BINYONI-NISMAKH STAYS DESCRIPTIVE — DO NOT SPLIT INTO A SEPARATE VERB CLAUSE
+
+A construct-state participle (בינוני נסמך) that describes a noun MUST remain a descriptor — never split it into an independent verb action.
+
+Patterns: יֹדְעֵי X, שֹׁמְרֵי X, אֹהֲבֵי X, יֹשְׁבֵי X, בֹּנֵי X, רֹעֵי X, עֹשֵׂי X, הֹלְכֵי X — and any other participle in construct describing a noun.
+
+CORRECT (close-to-source preserves the construct form):
+- "כֵּאלֹהִים יֹדְעֵי טוֹב וָרָע" → "כֵּאלוֹהִים יוֹדְעֵי טוֹב וָרָע"
+- "שֹׁמְרֵי בְרִית" → "שׁוֹמְרֵי הַבְּרִית"
+
+WRONG (do NOT do this):
+- "כֵּאלֹהִים יֹדְעֵי טוֹב וָרָע" → "כְּמוֹ אֱלוֹהִים, וְתֵדְעוּ טוֹב וְרַע" ❌ (adds a verb action not in source)
+- "שֹׁמְרֵי בְרִית" → "וְהֵם יִשְׁמְרוּ אֶת הַבְּרִית" ❌ (turns description into future action)
+
+The participle describes WHAT/WHO the noun IS, not WHAT the noun WILL DO. At the close-to-source level the construct form should be preserved as-is.
+
 ---
 
 ## EXAMPLES (showing the close-to-source style)
