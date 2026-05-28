@@ -1380,38 +1380,61 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             </button>
           )}
 
-          {/* Translation level cycle button: off -> easy -> medium -> close -> off */}
+          {/* Translation level selector */}
           {(translationsByLevel.easy || translationsByLevel.medium || translationsByLevel.close) && (
-            <button
-              onClick={() => {
-                const order = ['off', 'easy', 'medium', 'close'];
-                const idx = order.indexOf(translationLevel);
-                for (let i = 1; i <= 4; i++) {
-                  const next = order[(idx + i) % 4];
-                  if (next === 'off' || translationsByLevel[next]) {
-                    setTranslationLevel(next);
-                    break;
+            isMobile ? (
+              /* MOBILE: single cycling button */
+              <button
+                onClick={() => {
+                  const order = ['off', 'easy', 'medium', 'close'];
+                  const idx = order.indexOf(translationLevel);
+                  for (let i = 1; i <= 4; i++) {
+                    const next = order[(idx + i) % 4];
+                    if (next === 'off' || translationsByLevel[next]) {
+                      setTranslationLevel(next);
+                      break;
+                    }
                   }
-                }
-              }}
-              className={`absolute left-24 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
-                         cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
-                           translationLevel !== 'off'
-                             ? 'border-gold/50 text-gold bg-gold/10'
-                             : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
-                         }`}
-              title="החלף רמת תרגום"
-            >
-              {isMobile ? (
-                translationLevel === 'off' ? 'תרגום' :
-                translationLevel === 'easy' ? 'קל' :
-                translationLevel === 'medium' ? 'מדויק' : 'קרוב למקור'
-              ) : (
-                translationLevel === 'off' ? 'הצג תרגום' :
-                translationLevel === 'easy' ? 'תרגום: קל' :
-                translationLevel === 'medium' ? 'תרגום: מדויק' : 'תרגום: קרוב למקור'
-              )}
-            </button>
+                }}
+                className={`absolute left-24 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
+                           cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
+                             translationLevel !== 'off'
+                               ? 'border-gold/50 text-gold bg-gold/10'
+                               : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
+                           }`}
+                title="החלף רמת תרגום"
+              >
+                {translationLevel === 'off' ? 'תרגום' :
+                 translationLevel === 'easy' ? 'קל' :
+                 translationLevel === 'medium' ? 'מדויק' : 'קרוב למקור'}
+              </button>
+            ) : (
+              /* DESKTOP: 4 separate buttons inline */
+              <div className="absolute left-24 top-1/2 -translate-y-1/2 flex gap-2" dir="rtl">
+                {[
+                  { key: 'off', label: 'ללא תרגום', available: true },
+                  { key: 'easy', label: 'קל', available: !!translationsByLevel.easy },
+                  { key: 'medium', label: 'מדויק', available: !!translationsByLevel.medium },
+                  { key: 'close', label: 'קרוב למקור', available: !!translationsByLevel.close },
+                ].map(({ key, label, available }) => (
+                  <button
+                    key={key}
+                    onClick={() => available && setTranslationLevel(key)}
+                    disabled={!available}
+                    className={`px-3 py-1.5 rounded-lg border text-sm font-ui transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
+                      !available
+                        ? 'border-white/5 text-white/15 cursor-not-allowed'
+                        : translationLevel === key
+                          ? 'border-gold/50 text-gold bg-gold/10 cursor-pointer'
+                          : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30 cursor-pointer'
+                    }`}
+                    title={available ? `הצג רמת תרגום: ${label}` : 'לא זמין בפרק זה'}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )
           )}
 
           {/* Edit translations button — admin-only, only when translations are visible */}
