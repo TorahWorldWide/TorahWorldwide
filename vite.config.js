@@ -22,8 +22,10 @@ function syncSavePlugin() {
         req.on('data', chunk => { body += chunk })
         req.on('end', () => {
           try {
-            const { book, chapter, translations } = JSON.parse(body)
-            const filename = `${book}_${chapter}.json`
+            const { book, chapter, level, translations } = JSON.parse(body)
+            const validLevels = ['easy', 'medium', 'close']
+            const suffix = level && validLevels.includes(level) ? `.${level}` : ''
+            const filename = `${book}_${chapter}${suffix}.json`
             const filepath = path.join(transDir, filename)
             fs.writeFileSync(filepath, JSON.stringify(translations, null, 2))
             console.log(`  [translation-save] Saved ${filename}`)

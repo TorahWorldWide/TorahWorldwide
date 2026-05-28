@@ -59,8 +59,10 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   const [syncEditsCount, setSyncEditsCount] = useState(0);
   const [syncSaveStatus, setSyncSaveStatus] = useState('');
   const [verseTranslations, setVerseTranslations] = useState({}); // { verseIndex: translationText }
-  const [savedTranslations, setSavedTranslations] = useState(null); // loaded from file: { "0": "...", "1": "...", ... }
-  const [showSavedTranslations, setShowSavedTranslations] = useState(false);
+  const [translationLevel, setTranslationLevel] = useState('off'); // 'off' | 'easy' | 'medium' | 'close'
+  const [translationsByLevel, setTranslationsByLevel] = useState({ easy: null, medium: null, close: null });
+  const savedTranslations = translationLevel !== 'off' ? translationsByLevel[translationLevel] : null;
+  const showSavedTranslations = translationLevel !== 'off' && !!savedTranslations;
   const [showTranslations, setShowTranslations] = useState(true);
   const [translating, setTranslating] = useState(false);
   const [editingTranslations, setEditingTranslations] = useState(false);
@@ -115,14 +117,30 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
     return () => { cancelled = true; };
   }, [book.english, chapter, fetchChapter]);
 
-  // Load saved translations for this chapter (if they exist)
+  // Load saved translations (all 3 levels) for this chapter
   useEffect(() => {
-    setSavedTranslations(null);
-    setShowSavedTranslations(false);
+    setTranslationsByLevel({ easy: null, medium: null, close: null });
+    setTranslationLevel('off');
+    // Try multi-level files first; fall back to legacy single-file translation
+    let multiLevelFound = false;
+    ['easy', 'medium', 'close'].forEach(level => {
+      fetch(`/translations/${book.english}_${chapter}.${level}.json`)
+        .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+        .then(data => {
+          multiLevelFound = true;
+          setTranslationsByLevel(prev => ({ ...prev, [level]: data }));
+        })
+        .catch(() => {});
+    });
+    // Legacy fallback: load Genesis_N.json into the "medium" slot if no multi-level files exist
     fetch(`/translations/${book.english}_${chapter}.json`)
       .then(r => { if (!r.ok) throw new Error(); return r.json(); })
-      .then(data => setSavedTranslations(data))
-      .catch(() => setSavedTranslations(null));
+      .then(data => {
+        if (!multiLevelFound) {
+          setTranslationsByLevel(prev => prev.medium ? prev : { ...prev, medium: data });
+        }
+      })
+      .catch(() => {});
   }, [book.english, chapter]);
 
   // Save position
@@ -325,12 +343,12 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   // Save edited translations to file
   const saveTranslationEdits = async () => {
     if (!isAdmin()) return; // admin-only: prevents visitors from overwriting translations
-    if (!savedTranslations) return;
+    if (!savedTranslations || translationLevel === 'off') return;
     try {
       const resp = await fetch('/api/save-translation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ book: book.english, chapter, translations: savedTranslations }),
+        body: JSON.stringify({ book: book.english, chapter, level: translationLevel, translations: savedTranslations }),
       });
       if (resp.ok) {
         setEditingTranslations(false);
@@ -340,7 +358,11 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
 
   // Update a single verse translation while editing
   const updateVerseTranslation = (vIndex, newText) => {
-    setSavedTranslations(prev => ({ ...prev, [String(vIndex)]: newText }));
+    if (translationLevel === 'off') return;
+    setTranslationsByLevel(prev => ({
+      ...prev,
+      [translationLevel]: { ...(prev[translationLevel] || {}), [String(vIndex)]: newText },
+    }));
   };
 
   const handleTranslate = async () => {
@@ -1358,19 +1380,37 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
             </button>
           )}
 
-          {/* Show saved translations button */}
-          {savedTranslations && (
+          {/* Translation level cycle button: off -> easy -> medium -> close -> off */}
+          {(translationsByLevel.easy || translationsByLevel.medium || translationsByLevel.close) && (
             <button
-              onClick={() => setShowSavedTranslations(prev => !prev)}
+              onClick={() => {
+                const order = ['off', 'easy', 'medium', 'close'];
+                const idx = order.indexOf(translationLevel);
+                for (let i = 1; i <= 4; i++) {
+                  const next = order[(idx + i) % 4];
+                  if (next === 'off' || translationsByLevel[next]) {
+                    setTranslationLevel(next);
+                    break;
+                  }
+                }
+              }}
               className={`absolute left-24 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg border text-sm font-ui
                          cursor-pointer transition-[transform,opacity,color,background-color,border-color,box-shadow,filter] duration-200 ${
-                           showSavedTranslations
+                           translationLevel !== 'off'
                              ? 'border-gold/50 text-gold bg-gold/10'
                              : 'border-white/15 text-white/40 hover:text-gold hover:border-gold/30'
                          }`}
-              title="הצג/הסתר תרגום שמור"
+              title="החלף רמת תרגום"
             >
-              {showSavedTranslations ? 'הסתר תרגום' : 'הצג תרגום'}
+              {isMobile ? (
+                translationLevel === 'off' ? 'תרגום' :
+                translationLevel === 'easy' ? 'קל' :
+                translationLevel === 'medium' ? 'מדויק' : 'קרוב למקור'
+              ) : (
+                translationLevel === 'off' ? 'הצג תרגום' :
+                translationLevel === 'easy' ? 'תרגום: קל' :
+                translationLevel === 'medium' ? 'תרגום: מדויק' : 'תרגום: קרוב למקור'
+              )}
             </button>
           )}
 
