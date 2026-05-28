@@ -1,0 +1,107 @@
+# BIBLICAL HEBREW → SUPER SIMPLE MODERN HEBREW (LEVEL 0: EXTRA EASY)
+
+Target: 10-year-old Israeli kid with ZERO background. Even a non-religious kid who never heard biblical Hebrew.
+
+## CARDINAL RULE
+RETELL the story in everyday spoken Hebrew. Every archaic word — even ones a teenager would understand — gets replaced. If the word is more formal than what a kid says to their friend, replace it.
+
+This is NOT a translation that "sounds biblical-lite". This is a retelling in pure conversational modern Hebrew, like an adult telling the story to a kid.
+
+## RULES
+
+1. **PESHAT ONLY** — no derash, no theology, no interpretation beyond what the text actually says.
+
+2. **REPLACE EVEN FORMAL-MODERN HEBREW** that's not in everyday speech:
+   - עַתָּה → עַכְשָׁו
+   - אָנֹכִי → אֲנִי
+   - הִנֵּה → תִּרְאֶה / נָכוֹן
+   - אַל / אַל תַּעַשׂ → אַתָּה לֹא אָמוּר / אַל
+   - כִּי → כִּי / בִּגְלַל שֶׁ / מִפְּנֵי שֶׁ (whichever is most natural)
+   - אִם כֵּן → אִם כָּכָה
+   - בְּטֶרֶם → לִפְנֵי שֶׁ
+   - לְבַל → כְּדֵי שֶׁלֹּא
+   - לְמַעַן → כְּדֵי
+   - אַחֲרֵי כֵן → אַחַר כָּךְ
+   - מֵאֵת → מִ
+   - אֲשֶׁר → שֶׁ
+   - אֵיפֹה / אַיֵּה → אֵיפֹה (modern only)
+   - הָלֹא → הֲלֹא / הֲרֵי
+   - חָדַל / לְהַחֲדִיל → הִפְסִיק
+   - הוֹסִיף → עָשָׂה עוֹד פַּעַם / שׁוּב / הִמְשִׁיךְ
+   - מֵרֵעַ → מֵחָבֵר
+   - וַיֹּאמֶר/וַיֹּאמְרוּ → אָמַר / אָמְרוּ (add subject)
+
+3. **NO BIBLICAL SENTENCE STRUCTURE.** Break compound sentences into short ones. Use modern word order (Subject-Verb-Object). Modern Israeli punctuation. Short sentences when possible.
+
+4. **EXPLAIN EVERY UNUSUAL CONCEPT** in parens, even ones that other tiers leave:
+   - מִזְבֵּחַ → מָקוֹם שֶׁבּוֹ מַקְרִיבִים קָרְבָּנוֹת לֵאלוֹהִים (מִזְבֵּחַ)
+   - בְּרִית → הֶסְכֵּם מְיֻחָד (בְּרִית)
+   - קָרְבָּן → מַתָּנָה לֵאלוֹהִים, בְּדֶרֶךְ כְּלָל בַּעַל חַיִּים שֶׁשּׂוֹרְפִים (קָרְבָּן)
+   - עוֹלָה → מַתָּנָה לֵאלוֹהִים שֶׁשּׂוֹרְפִים אוֹתָהּ לְגַמְרֵי (עוֹלָה)
+   - מְעָרָה → חוֹר גָּדוֹל בַּסֶּלַע (מְעָרָה)
+   - אֵפוֹד → בֶּגֶד מְיֻחָד שֶׁל הַכֹּהֵן (אֵפוֹד)
+   - שָׂרַי / שָׂרָה / נְבִיא / כֹּהֵן — explain on first appearance
+   - כֶּסֶף (in payment sense) → כֶּסֶף (מַטְבְּעוֹת) — clarify if it sounds like the metal
+   - שֵׁבֶט → קְבוּצָה גְּדוֹלָה שֶׁל מִשְׁפָּחוֹת מֵאוֹתוֹ אַבָּא (שֵׁבֶט)
+
+5. **GENEALOGIES — TURN INTO STORY:**
+   - "וַיְחִי X שָׁנִים רַבּוֹת וַיּוֹלֶד אֶת Y" → "X חַי הַרְבֵּה שָׁנִים. נוֹלַד לוֹ יֶלֶד וְקָרְאוּ לוֹ Y."
+   - Don't preserve any biblical structure here. Just tell what happened in modern Hebrew sentences.
+
+6. **NO FOREIGN THEOLOGY** — same as other tiers:
+   - נֶפֶשׁ חַיָּה → יֵשׁ בּוֹ חַיִּים / יְצוּר חַי
+   - רוּחַ אֱלֹהִים → רוּחַ אֱלוֹהִים (NOT רוח הקודש)
+   - מָשִׁיחַ → אָדָם שֶׁמָּשְׁחוּ אוֹתוֹ בְּשֶׁמֶן (NOT "the Messiah")
+   - עַלְמָה → אִשָּׁה צְעִירָה
+
+7. **BIBLICAL IDIOMS — TRANSLATE THE PLAIN MEANING:**
+   - נָשָׂא עֵינָיו → הִסְתַּכֵּל
+   - שָׁלַח יָדוֹ → הוֹשִׁיט אֶת הַיָּד
+   - יָדַע אֶת אִשְׁתּוֹ → שָׁכַב עִם אִשְׁתּוֹ
+   - שָׁפַךְ דָּם → רָצַח / הָרַג
+   - חָזַק לֵב → לֹא הִסְכִּים בְּשׁוּם פָּנִים וָאֹפֶן / הִתְעַקֵּשׁ
+   - מוֹת תָּמוּת → בְּוַדַּאי תָּמוּת / חַיָּב לָמוּת
+   - בָּא בַּיָּמִים → הָיָה כְּבָר זָקֵן מְאוֹד
+   - נָשָׂא פָנִים → הֶעֱדִיף
+
+8. **EVEN BASIC BIBLICAL WORDS — REPLACE WITH SPOKEN HEBREW:**
+   - דָּבָר (matter/thing) → דָּבָר / עִנְיָן
+   - עוֹלָם (in long-time sense) → לְעוֹלָם / לְתָמִיד / לְכָל הַחַיִּים
+   - יְהוָה → ה' (modern Israeli usage)
+   - אֱלֹהִים → אֱלוֹהִים (with ו)
+   - כּוֹכָבִים → כּוֹכָבִים (fine)
+   - אַתָּה / אַתֶּם — keep modern
+
+9. **WHEN A VERSE IS LONG OR HAS NESTED CLAUSES** — split it into 2-3 sentences. Don't try to preserve a single sentence.
+
+10. **MODERN NIKUD** on every word. Standard Israeli pronunciation. No Masoretic patterns. No cantillation marks.
+
+11. **SPACES BETWEEN ALL WORDS.** Never merge.
+
+12. **PRESERVE DEFINITE ARTICLES** (הַמַּבּוּל stays definite).
+
+13. **NEVER use exclamation marks.**
+
+14. **Names stay original:** אַבְרָהָם, יִצְחָק, יַעֲקֹב, שָׂרָה. But if a name is super obscure, gloss it: שֵׁת (הַבֵּן הַשְּׁלִישִׁי שֶׁל אָדָם וְחַוָּה).
+
+15. **שרצו ≠ פרו** — distinct meanings even here.
+
+## EXAMPLES
+
+**Genesis 1:1**
+Original: בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ
+Extra-easy: בַּהַתְחָלָה אֱלוֹהִים בָּרָא אֶת הַשָּׁמַיִם וְאֶת הָאָרֶץ.
+
+**Genesis 2:7**
+Original: וַיִּיצֶר ה' אֱלֹהִים אֶת הָאָדָם עָפָר מִן הָאֲדָמָה וַיִּפַּח בְּאַפָּיו נִשְׁמַת חַיִּים וַיְהִי הָאָדָם לְנֶפֶשׁ חַיָּה
+Extra-easy: ה' אֱלוֹהִים יָצַר אֶת הָאָדָם מֵעָפָר שֶׁל הָאֲדָמָה. הוּא נָשַׁף בָּאַף שֶׁל הָאָדָם וְנָתַן לוֹ נְשִׁימָה שֶׁל חַיִּים, וְהָאָדָם נִהְיָה יְצוּר חַי.
+
+**Genesis 22:1-2**
+Original: וַיְהִי אַחַר הַדְּבָרִים הָאֵלֶּה וְהָאֱלֹהִים נִסָּה אֶת אַבְרָהָם וַיֹּאמֶר אֵלָיו אַבְרָהָם וַיֹּאמֶר הִנֵּנִי. וַיֹּאמֶר קַח נָא אֶת בִּנְךָ אֶת יְחִידְךָ אֲשֶׁר אָהַבְתָּ אֶת יִצְחָק...
+Extra-easy: אַחֲרֵי כָּל הַדְּבָרִים הָאֵלֶּה, אֱלוֹהִים בָּדַק אֶת אַבְרָהָם. הוּא קָרָא לוֹ: "אַבְרָהָם!" אַבְרָהָם עָנָה: "אֲנִי כָּאן." אֱלוֹהִים אָמַר לוֹ: "קַח אֶת הַבֵּן שֶׁלְּךָ, הַיָּחִיד שֶׁאַתָּה אוֹהֵב, אֶת יִצְחָק..."
+
+Notice: בְּרֵאשִׁית → בַּהַתְחָלָה. וַיְהִי → אַחֲרֵי. הִנֵּנִי → אֲנִי כָּאן. נִסָּה → בָּדַק. וַיֹּאמֶר → קָרָא לוֹ / אָמַר.
+
+## OUTPUT FORMAT
+ONE JSON object: { "0": "...", "1": "...", ... }
+Verses 0-indexed. Output ONLY the JSON. No markdown fences, no commentary.

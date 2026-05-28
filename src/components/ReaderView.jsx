@@ -60,7 +60,7 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   const [syncSaveStatus, setSyncSaveStatus] = useState('');
   const [verseTranslations, setVerseTranslations] = useState({}); // { verseIndex: translationText }
   const [translationLevel, setTranslationLevel] = useState('off'); // 'off' | 'easy' | 'medium' | 'close'
-  const [translationsByLevel, setTranslationsByLevel] = useState({ easy: null, medium: null, close: null });
+  const [translationsByLevel, setTranslationsByLevel] = useState({ 'extra-easy': null, easy: null, medium: null, close: null });
   const savedTranslations = translationLevel !== 'off' ? translationsByLevel[translationLevel] : null;
   const showSavedTranslations = translationLevel !== 'off' && !!savedTranslations;
   const [showTranslations, setShowTranslations] = useState(true);
@@ -119,11 +119,11 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
 
   // Load saved translations (all 3 levels) for this chapter
   useEffect(() => {
-    setTranslationsByLevel({ easy: null, medium: null, close: null });
+    setTranslationsByLevel({ 'extra-easy': null, easy: null, medium: null, close: null });
     setTranslationLevel('off');
     // Try multi-level files first; fall back to legacy single-file translation
     let multiLevelFound = false;
-    ['easy', 'medium', 'close'].forEach(level => {
+    ['extra-easy', 'easy', 'medium', 'close'].forEach(level => {
       fetch(`/translations/${book.english}_${chapter}.${level}.json`)
         .then(r => { if (!r.ok) throw new Error(); return r.json(); })
         .then(data => {
@@ -1381,15 +1381,15 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
           )}
 
           {/* Translation level selector */}
-          {(translationsByLevel.easy || translationsByLevel.medium || translationsByLevel.close) && (
+          {(translationsByLevel['extra-easy'] || translationsByLevel.easy || translationsByLevel.medium || translationsByLevel.close) && (
             isMobile ? (
               /* MOBILE: single cycling button */
               <button
                 onClick={() => {
-                  const order = ['off', 'easy', 'medium', 'close'];
+                  const order = ['off', 'extra-easy', 'easy', 'medium', 'close'];
                   const idx = order.indexOf(translationLevel);
-                  for (let i = 1; i <= 4; i++) {
-                    const next = order[(idx + i) % 4];
+                  for (let i = 1; i <= order.length; i++) {
+                    const next = order[(idx + i) % order.length];
                     if (next === 'off' || translationsByLevel[next]) {
                       setTranslationLevel(next);
                       break;
@@ -1405,14 +1405,16 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 title="החלף רמת תרגום"
               >
                 {translationLevel === 'off' ? 'תרגום' :
+                 translationLevel === 'extra-easy' ? 'פשוט' :
                  translationLevel === 'easy' ? 'קל' :
                  translationLevel === 'medium' ? 'מדויק' : 'קרוב למקור'}
               </button>
             ) : (
-              /* DESKTOP: 4 separate buttons inline */
+              /* DESKTOP: 5 separate buttons inline */
               <div className="absolute left-24 top-1/2 -translate-y-1/2 flex gap-2" dir="rtl">
                 {[
                   { key: 'off', label: 'ללא תרגום', available: true },
+                  { key: 'extra-easy', label: 'פשוט מאוד', available: !!translationsByLevel['extra-easy'] },
                   { key: 'easy', label: 'קל', available: !!translationsByLevel.easy },
                   { key: 'medium', label: 'מדויק', available: !!translationsByLevel.medium },
                   { key: 'close', label: 'קרוב למקור', available: !!translationsByLevel.close },
