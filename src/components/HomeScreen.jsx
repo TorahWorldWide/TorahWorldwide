@@ -3,8 +3,9 @@ import torahStructure from '../data/torahStructure.json';
 import { getLastPosition, getSettings, saveSettings } from '../utils/storage';
 import { toHebrewNumeral } from '../utils/hebrewNumerals';
 import { parseSearchRef } from '../utils/searchRef';
+import { fetchCurrentParsha } from '../utils/parsha';
 
-export default function HomeScreen({ onStart, onPerushim }) {
+export default function HomeScreen({ onStart, onPerushim, onParsha }) {
   const { sections, books } = torahStructure;
   const lastPosition = getLastPosition();
 
@@ -32,6 +33,21 @@ export default function HomeScreen({ onStart, onPerushim }) {
   const [scrollCollapsed, setScrollCollapsed] = useState(false);
   // UI-hidden mode — click the eye to show ONLY the wallpaper (everything else hidden except the eye itself)
   const [uiHidden, setUiHidden] = useState(false);
+
+  // Weekly parsha (Parashat HaShavua) — fetched once on mount.
+  // null while loading or on any failure; if null the parsha button is hidden.
+  const [parsha, setParsha] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetchCurrentParsha().then((p) => { if (!cancelled) setParsha(p); });
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleParshaClick = () => {
+    if (!parsha || !onParsha) return;
+    setExiting(true);
+    setTimeout(() => onParsha(parsha), 220);
+  };
 
   // Mobile detection — everything on this screen collapses at ≤640px
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 640);
@@ -566,6 +582,65 @@ export default function HomeScreen({ onStart, onPerushim }) {
         }}
       >
         <div className="relative">
+        {/* Parashat HaShavua — dedicated row above section tabs. Hidden if fetch failed. */}
+        {parsha && (
+          <div className="flex justify-center" style={{ marginBottom: '22px' }} dir="rtl">
+            <button
+              onClick={handleParshaClick}
+              className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
+              style={{
+                minHeight: '52px',
+                padding: '8px 28px',
+                borderRadius: '12px',
+                background: 'linear-gradient(180deg, rgba(212,168,67,0.18), rgba(140,100,35,0.32))',
+                border: '1.5px solid rgba(244,215,138,0.7)',
+                color: '#f8dfa0',
+                fontFamily: 'var(--font-title)',
+                letterSpacing: '0.06em',
+                boxShadow:
+                  '0 6px 28px rgba(212,168,67,0.22), inset 0 0 18px rgba(244,215,138,0.08), 0 3px 14px rgba(0,0,0,0.55)',
+                textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.45)',
+                gap: '12px',
+              }}
+              aria-label={parsha.heName}
+            >
+              <div className="flex flex-col items-center" style={{ lineHeight: 1.15 }}>
+                <span style={{ fontSize: '1.18rem' }}>{parsha.heName}</span>
+                <span
+                  style={{
+                    fontSize: '0.74rem',
+                    color: 'rgba(244,215,138,0.78)',
+                    letterSpacing: '0.04em',
+                    marginTop: '2px',
+                    fontFamily: 'var(--font-ui)',
+                  }}
+                >
+                  {parsha.heRef}
+                </span>
+              </div>
+              {/* Small Torah-scroll icon — inline gold SVG */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+                style={{ flexShrink: 0 }}
+              >
+                <path d="M5 4h10a3 3 0 0 1 3 3v10a3 3 0 0 0 3 3H8a3 3 0 0 1-3-3V4z" />
+                <path d="M5 4a2 2 0 0 0-2 2v12a3 3 0 0 0 3 3" />
+                <line x1="9" y1="9" x2="14" y2="9" />
+                <line x1="9" y1="13" x2="14" y2="13" />
+              </svg>
+            </button>
+          </div>
+        )}
+
         {/* Section tabs — glass nav */}
         <div className="mb-8 flex justify-center gap-11" dir="rtl">
           {sections.map((section) => {
@@ -833,6 +908,64 @@ export default function HomeScreen({ onStart, onPerushim }) {
         }}
       >
         <div className="relative">
+        {/* Parashat HaShavua — dedicated row above section tabs. Hidden if fetch failed. */}
+        {parsha && (
+          <div className="flex justify-center" style={{ marginBottom: '12px' }} dir="rtl">
+            <button
+              onClick={handleParshaClick}
+              className="inline-flex items-center justify-center cursor-pointer transition-all duration-500 hover:brightness-110"
+              style={{
+                minHeight: '46px',
+                padding: '6px 18px',
+                borderRadius: '10px',
+                background: 'linear-gradient(180deg, rgba(212,168,67,0.18), rgba(140,100,35,0.32))',
+                border: '1.5px solid rgba(244,215,138,0.7)',
+                color: '#f8dfa0',
+                fontFamily: 'var(--font-title)',
+                letterSpacing: '0.04em',
+                boxShadow:
+                  '0 6px 28px rgba(212,168,67,0.22), inset 0 0 18px rgba(244,215,138,0.08), 0 3px 14px rgba(0,0,0,0.55)',
+                textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.45)',
+                gap: '8px',
+              }}
+              aria-label={parsha.heName}
+            >
+              <div className="flex flex-col items-center" style={{ lineHeight: 1.15 }}>
+                <span style={{ fontSize: '0.96rem' }}>{parsha.heName}</span>
+                <span
+                  style={{
+                    fontSize: '0.62rem',
+                    color: 'rgba(244,215,138,0.78)',
+                    letterSpacing: '0.03em',
+                    marginTop: '1px',
+                    fontFamily: 'var(--font-ui)',
+                  }}
+                >
+                  {parsha.heRef}
+                </span>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+                style={{ flexShrink: 0 }}
+              >
+                <path d="M5 4h10a3 3 0 0 1 3 3v10a3 3 0 0 0 3 3H8a3 3 0 0 1-3-3V4z" />
+                <path d="M5 4a2 2 0 0 0-2 2v12a3 3 0 0 0 3 3" />
+                <line x1="9" y1="9" x2="14" y2="9" />
+                <line x1="9" y1="13" x2="14" y2="13" />
+              </svg>
+            </button>
+          </div>
+        )}
+
         {/* Section tabs */}
         <div
           className="flex justify-center"

@@ -4,7 +4,7 @@
    border adjustment, bottom bar (audio + navigation), settings panel
    ============================================================ */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
 import { useSefaria } from '../hooks/useSefaria';
 import { useAudio } from '../hooks/useAudio';
 import { saveLastPosition, getSettings, saveSettings } from '../utils/storage';
@@ -31,7 +31,7 @@ function toCombiNumerals(n) {
   return String(tens) + COMBI_SHIFT[ones];
 }
 
-export default function ReaderView({ book, chapter, initialVerse, onBack, onNavigate }) {
+export default function ReaderView({ book, chapter, initialVerse, parshaRange, onBack, onNavigate }) {
   const { fetchChapter, loading, error } = useSefaria();
   const [verses, setVerses] = useState([]);
   const [playing, setPlaying] = useState(false);
@@ -70,6 +70,54 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
   const [searchError, setSearchError] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
+  // Parsha banner is shown once per entry-from-parsha and is dismissible.
+  // Reset whenever a new parshaRange arrives (entering the reader from the home button).
+  const [parshaBannerDismissed, setParshaBannerDismissed] = useState(false);
+  useEffect(() => { setParshaBannerDismissed(false); }, [parshaRange]);
+
+  // True only when the current chapter belongs to the active parsha's book.
+  const parshaActive = !!(parshaRange && parshaRange.bookEnglish === book.english);
+
+  // Reusable ornamental divider for parsha start/end markers — matches the
+  // "בחר פרק" gold-gradient header style used on HomeScreen.
+  const ParshaDivider = ({ label }) => (
+    <div
+      className="flex items-center justify-center"
+      style={{
+        margin: isMobile ? '14px 0' : '28px 0',
+        gap: isMobile ? '12px' : '20px',
+        width: '100%',
+      }}
+      dir="rtl"
+    >
+      <div style={{
+        height: '1px',
+        flex: 1,
+        maxWidth: isMobile ? '90px' : '200px',
+        background: 'linear-gradient(90deg, transparent, rgba(244,215,138,0.85))',
+        boxShadow: '0 0 6px rgba(212,168,67,0.4)',
+      }} />
+      <span
+        style={{
+          fontFamily: 'var(--font-title)',
+          fontSize: isMobile ? '0.85rem' : '1.1rem',
+          color: '#f4d78a',
+          letterSpacing: isMobile ? '0.18em' : '0.32em',
+          textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.6)',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {label}
+      </span>
+      <div style={{
+        height: '1px',
+        flex: 1,
+        maxWidth: isMobile ? '90px' : '200px',
+        background: 'linear-gradient(90deg, rgba(244,215,138,0.85), transparent)',
+        boxShadow: '0 0 6px rgba(212,168,67,0.4)',
+      }} />
+    </div>
+  );
 
   const handleBottomSearch = () => {
     const result = parseSearchRef(searchQuery, torahStructure.books);
@@ -979,6 +1027,66 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
       {/* Spacer for fixed top bar */}
       {showTopBar && <div className={isMobile ? "h-[72px]" : "h-16"} />}
 
+      {/* ======== PARSHA BANNER — shown once when entering via the weekly parsha button ======== */}
+      {parshaActive && !parshaBannerDismissed && (
+        <div
+          dir="rtl"
+          className="relative w-full flex items-center justify-center"
+          style={{
+            zIndex: 40, // below top bar (z-50) so it never covers controls
+            padding: isMobile ? '8px 40px 8px 40px' : '10px 56px 10px 56px',
+            background: 'linear-gradient(180deg, rgba(20,28,50,0.92), rgba(10,14,26,0.96))',
+            borderTop: '1px solid rgba(244,215,138,0.35)',
+            borderBottom: '1.5px solid rgba(244,215,138,0.55)',
+            boxShadow: '0 4px 18px rgba(0,0,0,0.55), inset 0 0 22px rgba(244,215,138,0.06)',
+          }}
+        >
+          <div className="flex flex-col items-center text-center" style={{ lineHeight: 1.2 }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-title)',
+                fontSize: isMobile ? '0.95rem' : '1.15rem',
+                color: '#f4d78a',
+                letterSpacing: '0.06em',
+                textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 14px rgba(244,215,138,0.55)',
+              }}
+            >
+              {parshaRange.heName}
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-ui)',
+                fontSize: isMobile ? '0.66rem' : '0.78rem',
+                color: 'rgba(244,215,138,0.72)',
+                letterSpacing: '0.04em',
+                marginTop: '2px',
+              }}
+            >
+              {parshaRange.heRef}
+            </span>
+          </div>
+          <button
+            onClick={() => setParshaBannerDismissed(true)}
+            aria-label="סגור"
+            className="absolute cursor-pointer transition-[transform,opacity,color] duration-200 hover:text-gold"
+            style={{
+              left: isMobile ? '12px' : '20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'rgba(244,215,138,0.7)',
+              fontFamily: 'var(--font-ui)',
+              fontSize: isMobile ? '18px' : '20px',
+              lineHeight: 1,
+              padding: '4px 8px',
+              background: 'transparent',
+              border: 'none',
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {showSettings && (
         <SettingsPanel settings={settings} onUpdate={updateSettings} onClose={() => setShowSettings(false)}
           onAdjustBorders={() => setAdjustingBorders(true)} />
@@ -987,8 +1095,12 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
       {/* ======== MODE 1: Verse-by-verse (each verse is a block) ======== */}
       {viewMode === 1 && (
         <div className="py-8 pb-32" style={{ paddingLeft: `${textPadding}px`, paddingRight: `${textPadding}px` }} dir="rtl">
-          {verses.map((verse, vIndex) => (
+          {verses.map((verse, vIndex) => {
+            const isParshaStart = parshaActive && chapter === parshaRange.startChapter && verse.number === parshaRange.startVerse;
+            const isParshaEnd = parshaActive && chapter === parshaRange.endChapter && verse.number === parshaRange.endVerse;
+            return (
             <div key={verse.number} ref={(el) => (verseRefs.current[vIndex] = el)}>
+              {isParshaStart && <ParshaDivider label={`תחילת ${parshaRange.heName}`} />}
               {(() => {
                 const isActiveVerse = vIndex === currentVerse || (audio.isPlaying && audio.hasSync && vIndex === audio.activeVerse);
                 const opacityClass = isActiveVerse ? 'opacity-100' : focusMode ? 'opacity-50' : settings.showAllText ? 'opacity-100' : 'opacity-30';
@@ -1049,8 +1161,10 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                 );
                 return <div className="mb-6" />;
               })()}
+              {isParshaEnd && <ParshaDivider label={`סוף ${parshaRange.heName}`} />}
             </div>
-          ))}
+            );
+          })}
 
         </div>
       )}
@@ -1071,9 +1185,16 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
               if (magnifyMode) {
                 spanStyle.fontSize = isCurrent ? `${fontSize * 1.3}px` : `${fontSize * 0.9}px`;
               }
+              const isParshaStart = parshaActive && chapter === parshaRange.startChapter && verse.number === parshaRange.startVerse;
+              const isParshaEnd = parshaActive && chapter === parshaRange.endChapter && verse.number === parshaRange.endVerse;
               return (
+                <Fragment key={verse.number}>
+                  {isParshaStart && (
+                    <div style={{ display: 'block', width: '100%' }}>
+                      <ParshaDivider label={`תחילת ${parshaRange.heName}`} />
+                    </div>
+                  )}
                 <span
-                  key={verse.number}
                   className={`transition-all duration-500 ${
                     isCurrent ? 'opacity-100' :
                     focusMode ? 'opacity-50' :
@@ -1101,6 +1222,12 @@ export default function ReaderView({ book, chapter, initialVerse, onBack, onNavi
                     </span>
                   ))}
                 </span>
+                  {isParshaEnd && (
+                    <div style={{ display: 'block', width: '100%' }}>
+                      <ParshaDivider label={`סוף ${parshaRange.heName}`} />
+                    </div>
+                  )}
+                </Fragment>
               );
             })}
           </div>
