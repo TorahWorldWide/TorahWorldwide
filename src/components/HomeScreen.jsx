@@ -196,7 +196,7 @@ export default function HomeScreen({ onStart, onPerushim, onParsha }) {
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} px-6 ${exiting ? 'splash-exit' : 'splash-enter'}`}
+      className={`flex flex-col items-center ${isMobile ? 'justify-start' : 'justify-center'} px-6 ${exiting ? 'splash-exit' : 'splash-enter'}`}
       style={{
         backgroundImage: `url(${WALLPAPERS[wallpaperIdx]})`,
         backgroundSize: 'cover',
@@ -204,9 +204,14 @@ export default function HomeScreen({ onStart, onPerushim, onParsha }) {
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#050508',
         transition: 'background-image 0.6s ease',
-        // Mobile uses 100dvh so the iOS URL bar doesn't push content below
-        // the fold; desktop keeps 100vh exactly like before.
-        height: isMobile ? '100dvh' : '100vh',
+        // Pin the whole screen to the viewport so the background NEVER scrolls.
+        // position:fixed + inset:0 glues it to the visible viewport; 100dvh keeps
+        // it correct under the iOS URL bar. overflow:hidden clips any overflow so
+        // the page itself can't scroll (no body scroll = background can't move).
+        position: 'fixed',
+        inset: 0,
+        height: '100dvh',
+        width: '100%',
         overflow: 'hidden',
         // Shrink the side gutter on mobile only; desktop stays at px-6 from
         // the tailwind class.
@@ -903,7 +908,7 @@ export default function HomeScreen({ onStart, onPerushim, onParsha }) {
         style={{
           maxWidth: '100%',
           paddingBottom: '0.25rem',
-          marginTop: '200px',
+          marginTop: '150px',
           transition: 'max-width 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
